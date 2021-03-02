@@ -82,7 +82,7 @@ Biensûr, lorsqu'on parle de gestion de conccurence entre plusieurs transactions
 
 | Timing | Session N° 1 (User1)   | Session N° 2 (User2) |Résultat | 
 | :----: | :----: |:----:|:----:|
-| t0 | ``` SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem');``` |||
+| t0 | ``` SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem');``` |------|Session 1:Mohamed 2000 et Hichem 2800|
 | t1 | ``` UPDATE EMP SET SAL = 4000 WHERE ENAME ='Hichem'; ``` |------|------|
 | t2 | ------ |```UPDATE EMP SET SAL = SAL + 1000 WHERE ENAME ='Mohamed';```|------|
 | t3 | ```UPDATE EMP SET SAL = SAL + 1000 WHERE ENAME ='Mohamed';```|------|
@@ -91,6 +91,15 @@ Biensûr, lorsqu'on parle de gestion de conccurence entre plusieurs transactions
 | t6  |```UPDATE EMP SET SAL = SAL + 1000 WHERE ENAME ='Mohamed';```| ------|------|
 | t7 | ```Commit;```| ------ | --------|
 | t8 | ------ |```SELECT ENAME, SAL FROM EMP WHERE ENAME IN ('Mohamed','Hichem', 'Maaoui');```|------|
+
+
+
+********
+La session 1 a ete verrouillée aprés l'UPDATE faite pour Hichem puisque aucune transaction n'a ete faite.
+Aprés le Commit, la session 2 a ete déverrouillée et le salaire de hichem a ete augmentée.
+Aprés la derniere transaction(commit), Hichem et Mohamed ont eu un salaire de 5000 et 4000.
+*******
+
 
 ## Concurrence : Niveaux d'isolation des transactions
 
